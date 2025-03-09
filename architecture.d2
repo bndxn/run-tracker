@@ -1,0 +1,39 @@
+direction: right
+
+RunnerUser: "Runner" {
+    description: "Runner uploading data"
+}
+
+PlannerUser: "Planner" {
+    description: "Planning the next run!"
+}
+
+Process: "Garmin Query Lambda" {
+    description: "Fetch daily run data from Garmin Connect"
+}
+
+Process: "Garmin Save Lambda" {
+    description: "Store retrieved data in S3"
+}
+
+Process: "Extract Intervals" {
+    description: "Extract interval data and generate reports"
+}
+
+Process: "GPT-4 Predictor and Coach" {
+    description: "Predicts race times and suggests next workout"
+}
+
+Process: "Run Data Website" {
+    description: "User accesses site to view run data and insights"
+}
+
+Planner -> "Run Data Website": "Visits website"
+"Run Data Website" -> "S3 Run Data": "Fetches stored run data"
+"Run Data Website" -> "GPT-4 Predictor and Coach": "Initiates prediction request"
+
+Runner -> "Garmin Query Lambda": "Uploads run data"
+"Garmin Query Lambda" -> "Garmin Save Lambda": "Fetches run data"
+"Garmin Save Lambda" -> "S3 Run Data": "Stores raw data"
+"Extract Intervals" -> "GPT-4 Predictor and Coach": "Sends interval data"
+

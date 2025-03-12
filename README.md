@@ -19,4 +19,4 @@ Ideas of things to implement, from least to most crazy:
 # Developers
 
 * Uses poetry
-* Requires env variables set in `.env` file. 
+* Requires env variables set in `.env` file.

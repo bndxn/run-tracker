@@ -17,16 +17,17 @@ coach: {
     Past data
 
     OpenAI
-    
+
     Suggestion
 
     Past data -> OpenAI -> Suggestion
 }
 
 online portal: {
-    ui: {shape: hexagon}
+    UI : {
+        shape: hexagon
+    }
 }
-
 
 Runner: {
     shape: person
@@ -34,9 +35,9 @@ Runner: {
 }
 
 
-Runner -> Garmin Connect: store data
+Runner -> Garmin Connect: upload
 Runner -> online portal: access
 
 Garmin Connect -> data_fetching
-data_fetching -> coach: read data
-coach -> online portal: publish suggestion
+data_fetching -> coach: read
+coach -> online portal: publish

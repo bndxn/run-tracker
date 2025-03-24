@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 from get_activities import get_running_in_period
 from coach import query_coach
+from setup_config import dump_config
 
 
 def run_garmindb_cli():
@@ -32,8 +33,11 @@ def run_garmindb_cli():
 
 if __name__ == "__main__":
     run_garmindb_cli()
+    print("Downloading recent runs:")
     last_week = get_running_in_period(
         datetime.today() - timedelta(days=7), datetime.today()
     )
+    print(last_week)
+    print("Generating a suggested workout for today:")
     suggestion = query_coach(last_week)
     print(suggestion)

@@ -20,23 +20,16 @@ def get_running_in_period(earliest_date: datetime, latest_date: datetime):
 
     output = []
 
-    activities = Activities.get_latest(garmin_act_db, 100)
+    activities = Activities.get_latest(garmin_act_db, 10)
     for activity in activities:
-        if (
-            activity.sport == "running"
-            and earliest_date < activity.stop_time < latest_date
-        ):
-            h, m, s = map(
-                lambda x: round(float(x)), str(activity.elapsed_time).split(":")
-            )
-            output.append(
-                {
+        if (activity.sport == "running" and earliest_date < activity.stop_time < latest_date):
+            h, m, s = map(lambda x: round(float(x)), str(activity.elapsed_time).split(":"))
+            output.append({
                     "date": f"{activity.start_time.date()}",
                     "distance": f"{np.round(activity.distance,2)} km",
                     "duration": f"{h} hour {m} mins {s} seconds"
                     if h > 0
                     else f"{m} mins {s} seconds",
-                }
-            )
+                })
 
     return output

@@ -3,10 +3,8 @@ name = "run_tracker"
 version = "0.1.0"
 description = ""
 authors = ["Ben Dixon <uk.bendixon@gmail.com>"]
-readme = "README.md"
-packages = [
-    {include = "src"}
-]
+package-mode = false
+
 
 [tool.poetry.dependencies]
 python = "^3.12"

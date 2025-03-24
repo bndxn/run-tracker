@@ -1,0 +1,11 @@
+services:
+  inference:
+    build:
+      context: .
+      dockerfile: mvp.Dockerfile
+    volumes:
+      - ./src:/app/src
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GARMIN_USERNAME=${GARMIN_USERNAME}
+      - GARMIN_PASSWORD=${GARMIN_PASSWORD}

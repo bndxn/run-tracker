@@ -27,6 +27,7 @@ def get_running_in_period(earliest_date: datetime, latest_date: datetime):
             output.append({
                     "date": f"{activity.start_time.date()}",
                     "distance": f"{np.round(activity.distance,2)} km",
+                    "pace": f"{activity.avg_moving_pace}",
                     "duration": f"{h} hour {m} mins {s} seconds"
                     if h > 0
                     else f"{m} mins {s} seconds",

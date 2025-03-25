@@ -1,28 +1,30 @@
-[tool.poetry]
+[project]
 name = "run_tracker"
 version = "0.1.0"
 description = ""
-authors = ["Ben Dixon <uk.bendixon@gmail.com>"]
-package-mode = false
+authors = [
+    {name = "Ben Dixon", email = "uk.bendixon@gmail.com"},
+]
+requires-python = "<4.0,>=3.12"
+dependencies = [
+    "requests<3.0.0,>=2.32.3",
+    "python-dotenv>=1.0.1,<2.0.0",
+    "garmindb<4.0.0,>=3.6.3",
+    "snakemd<3.0.0,>=2.3.0",
+    "openai<2.0.0,>=1.66.3",
+    "numpy<3.0.0,>=2.2.3",
+    "pytest<9.0.0,>=8.3.5",
+    "pre-commit<5.0.0,>=4.1.0",
+    "asyncio<4.0.0,>=3.4.3",
+    "pytest-mock<4.0.0,>=3.14.0",
+]
 
 
-[tool.poetry.dependencies]
-python = "^3.12"
-requests = "^2.32.3"
-python-dotenv = "^1.0.1"
-garmindb = "^3.6.3"
-notebook = "^7.3.2"
-snakemd = "^2.3.0"
-openai = "^1.66.3"
-numpy = "^2.2.3"
-pytest = "^8.3.5"
-pre-commit = "^4.1.0"
-asyncio = "^3.4.3"
-pytest-mock = "^3.14.0"
-
+[tool.pdm.build]
+includes = []
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
 [tool.pytest.ini_options]
 pythonpath = "src"

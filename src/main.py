@@ -15,9 +15,8 @@ def run_garmindb_cli():
         script_path,
         "--activities",
         "--download",
-        "--import",
-        "--analyze",
-    ]
+        # "--import",
+        ]
 
     result = subprocess.run(cmd, capture_output=True, text=True)
 
@@ -34,10 +33,11 @@ def run_garmindb_cli():
 if __name__ == "__main__":
     run_garmindb_cli()
     print("Downloading recent runs:")
-    last_week = get_running_in_period(
+    recent_runs = get_running_in_period(
         datetime.today() - timedelta(days=7), datetime.today()
     )
-    print(last_week)
+    for run in recent_runs:
+        print(f"* {run["date"]} - {run["distance"]} - {run["duration"]}")
     print("Generating a suggested workout for today:")
-    suggestion = query_coach(last_week)
+    suggestion = query_coach(recent_runs)
     print(suggestion)

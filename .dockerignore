@@ -1,0 +1,5 @@
+.uv
+.venv
+__pycache__
+*.pyc
+.pdm-build

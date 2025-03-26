@@ -1,4 +1,4 @@
-# Run tracker
+# Run tracker and coach
 
 This is a python application which uses [GarminDB](https://github.com/tcgoetz/GarminDB) to query my recent runs stored using Garmin Connect. The script takes all runs from the past seven days, then passes them in a prompt to `gpt-4o`, and uses these to get a coach recommended workout for today.
 

@@ -19,6 +19,8 @@ pytest = "^8.3.5"
 pre-commit = "^4.1.0"
 asyncio = "^3.4.3"
 pytest-mock = "^3.14.0"
+flask = "^3.1.0"
+markdown = "^3.7"
 
 [build-system]
 requires = ["poetry-core"]

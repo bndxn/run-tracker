@@ -44,6 +44,10 @@ Ideas of things to implement, from least to most crazy:
 * Have different coach personas (old fashioned Pete who's all about slow running, modern Steve who loves strength and conditioning, and crazy Jack who insists on an even number of kilometers per day and as a weekly total)
 * Use deep research to generate some exercise science, then feed that in as part of a RAG system?
 
+## Thanks to
+
+* Building a CI/CD Pipeline with Flask, Docker, GitHub Actions, AWS ECR and AWS ECS: https://blog.devops.dev/building-a-ci-cd-pipeline-with-flask-docker-github-actions-aws-ecr-and-aws-ecs-51ff2f69ff4c
+
 
 ## Docker commands
 

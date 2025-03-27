@@ -43,3 +43,4 @@ Ideas of things to implement, from least to most crazy:
 * Extract interval times and send them as part of the prompt, e.g. ran 8x400m at an average pace of X:.. mins/km.
 * Have different coach personas (old fashioned Pete who's all about slow running, modern Steve who loves strength and conditioning, and crazy Jack who insists on an even number of kilometers per day and as a weekly total)
 * Use deep research to generate some exercise science, then feed that in as part of a RAG system?
+* Have some kind of document store of many potential running routes (maybe even all over the world?) and find them using FAISS

@@ -136,3 +136,28 @@ training_plan = {
     }
   ]
 }
+
+# handmade!
+
+training_routes = {
+  "finsbury park": {
+      "distances": "5-10km",
+      "useful_for": "easy runs, intervals"
+  },
+  "waterlow park/highgate": {
+      "distances": "4-6km",
+      "useful_for": "easy runs"
+  },
+  "hampstead heath": {
+      "distances": "6-10k",
+      "useful_for": "long easy runs"
+  },
+  "hazelville road": {
+      "distances": "2km",
+      "useful_for": "hill sprints"
+  },
+  "walthamstow wetlands":{
+      "distances": "17-25km",
+      "useful_for": "long runs"
+  },
+}

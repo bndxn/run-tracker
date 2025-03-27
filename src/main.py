@@ -7,7 +7,7 @@ from get_activities import get_running_in_period
 from coach import query_coach
 from setup_config import dump_config
 
-ENV = os.getenv("ENV", "local")
+DUMMY_RESPONSE = True if os.getenv("DUMMY_RESPONSE") == "" else False
 
 def run_garmindb_cli():
     script_path = os.path.abspath("src/garmindb_cli.py")
@@ -32,7 +32,7 @@ def run_garmindb_cli():
         print("Script completed successfully")
 
 def main():
-    if ENV == "local":
+    if DUMMY_RESPONSE:
         recent_runs = [
             "2025-03-26 - 5.76 km - 0:40:31 - 5:27 mins per km",
             "2025-03-25 - 8.59 km - 0:46:04 - 4:33 mins per km",

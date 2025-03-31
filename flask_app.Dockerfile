@@ -1,19 +1,23 @@
 FROM python:3.12-slim
 
-# COPY src/ /app/src
-COPY pyproject.toml pyproject.toml
-COPY poetry.lock poetry.lock
-
-ARG PYTHONPATH
-ARG PWD
-
 WORKDIR /app
-ENV PYTHONPATH=${PYTHONPATH}:${PWD}
-RUN pip3 install poetry
-RUN poetry config virtualenvs.create false
-RUN poetry install
 
+# Copy dependency files
+COPY pyproject.toml poetry.lock ./
+
+# Install poetry and project dependencies
+RUN pip install --upgrade pip \
+    && pip install poetry \
+    && poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi --no-root
+
+# Copy application source code
+COPY src/ ./src/
+
+# Set PYTHONPATH environment variable
 ENV PYTHONPATH=/app/src
 
-EXPOSE 5000
-CMD ["poetry", "run", "sh", "-c", "python3 src/setup_config.py && python3 src/web_app.py"]
+EXPOSE 80
+
+# Run application
+CMD ["sh", "-c", "python src/setup_config.py && python src/web_app.py"]

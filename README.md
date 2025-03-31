@@ -53,4 +53,5 @@ Ideas of things to implement, from least to most crazy:
 
 ```
 docker build -t run-tracker -f flask_app.Dockerfile --build-arg PYTHONPATH=$PYTHONPATH --build-arg PWD=$PWD .
+docker buildx build  --platform linux/amd64 -t run-tracker -f flask_app.Dockerfile --build-arg PYTHONPATH=$PYTHONPATH --build-arg PWD=$PWD .
 ```

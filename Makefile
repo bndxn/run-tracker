@@ -1,5 +1,8 @@
 .PHONY: install tests format
 
+install_poetry:
+	pip install --upgrade pip
+	pip install poetry
 
 install:
 	poetry install
@@ -7,6 +10,5 @@ install:
 tests:
 	poetry run pytest
 
-
-format: install
+format:
 	poetry run isort .

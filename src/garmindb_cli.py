@@ -10,61 +10,33 @@ __author__ = "Tom Goetz"
 __copyright__ = "Copyright Tom Goetz"
 __license__ = "GPL"
 
-import logging
-import sys
 import argparse
 import datetime
+import glob
+import logging
 import os
+import sys
 import tempfile
 import zipfile
-import glob
 
-from garmindb import python_version_check, log_version, format_version
-from garmindb.garmindb import (
-    GarminDb,
-    Attributes,
-    Sleep,
-    Weight,
-    RestingHeartRate,
-    MonitoringDb,
-    MonitoringHeartRate,
-    ActivitiesDb,
-    GarminSummaryDb,
-)
+from garmindb import (ActivityExporter, ActivityFitFileProcessor, Analyze,
+                      Copy, Download, FitFileProcessor,
+                      GarminActivitiesFitData, GarminConnectConfigManager,
+                      GarminHydrationData, GarminJsonDetailsData,
+                      GarminJsonSummaryData, GarminMonitoringFitData,
+                      GarminPersonalInformation, GarminRhrData,
+                      GarminSettingsFitData, GarminSleepData,
+                      GarminSleepFitData, GarminSocialProfile,
+                      GarminSummaryData, GarminTcxData, GarminUserSettings,
+                      GarminWeightData, MonitoringFitFileProcessor,
+                      OpenWithBaseCamp, OpenWithGoogleEarth, PluginManager,
+                      SleepFitFileProcessor, Statistics, format_version,
+                      log_version, python_version_check)
+from garmindb.garmindb import (ActivitiesDb, Attributes, GarminDb,
+                               GarminSummaryDb, MonitoringDb,
+                               MonitoringHeartRate, RestingHeartRate, Sleep,
+                               Weight)
 from garmindb.summarydb import SummaryDb
-
-from garmindb import Download, Copy, Analyze
-from garmindb import (
-    FitFileProcessor,
-    ActivityFitFileProcessor,
-    MonitoringFitFileProcessor,
-    SleepFitFileProcessor,
-)
-from garmindb import (
-    GarminUserSettings,
-    GarminSocialProfile,
-    GarminPersonalInformation,
-    GarminWeightData,
-    GarminSummaryData,
-    GarminMonitoringFitData,
-    GarminSleepFitData,
-    GarminSleepData,
-    GarminRhrData,
-    GarminSettingsFitData,
-    GarminHydrationData,
-)
-from garmindb import (
-    GarminJsonSummaryData,
-    GarminJsonDetailsData,
-    GarminTcxData,
-    GarminActivitiesFitData,
-)
-from garmindb import ActivityExporter
-
-from garmindb import GarminConnectConfigManager, PluginManager
-from garmindb import Statistics
-from garmindb import OpenWithBaseCamp, OpenWithGoogleEarth
-
 
 logging.basicConfig(filename="garmindb.log", filemode="w", level=logging.INFO)
 logger = logging.getLogger(__file__)

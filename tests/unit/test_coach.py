@@ -1,7 +1,7 @@
 import pytest
+from openai import OpenAI
 
 from coach import query_coach
-from openai import OpenAI
 
 
 def test_query_coach(monkeypatch, mocker):

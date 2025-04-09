@@ -1,7 +1,8 @@
-import numpy as np
 from datetime import datetime
+
+import numpy as np
 from garmindb import GarminConnectConfigManager
-from garmindb.garmindb import GarminDb, ActivitiesDb, Activities, ActivityLaps
+from garmindb.garmindb import Activities, ActivitiesDb, ActivityLaps, GarminDb
 
 gc_config = GarminConnectConfigManager()
 db_params_dict = gc_config.get_db_params()

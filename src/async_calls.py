@@ -1,6 +1,7 @@
-import openai
 import asyncio
 import time
+
+import openai
 from openai import AsyncOpenAI
 
 prompts = [

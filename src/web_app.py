@@ -1,10 +1,12 @@
-from flask import Flask, render_template
 import os
+
 import markdown
+from flask import Flask, render_template
 
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates'))
 
 from main import main
+
 
 @app.route("/")
 def hello_world():

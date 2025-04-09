@@ -32,5 +32,5 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
       run: |
         IMAGE_TAG=${{ github.sha }}
-        docker build -t 685541680156.dkr.ecr.eu-west-2.amazonaws.com/run-tracker:IMAGE_TAG .
+        docker build -t 685541680156.dkr.ecr.eu-west-2.amazonaws.com/run-tracker:IMAGE_TAG -f flask_app.Dockerfile .
         docker push 685541680156.dkr.ecr.eu-west-2.amazonaws.com/run-tracker:IMAGE_TAG

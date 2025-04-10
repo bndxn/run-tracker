@@ -1,0 +1,11 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - make install_poetry
+      - make install
+  build:
+    commands:
+      - make tests
+      - make format

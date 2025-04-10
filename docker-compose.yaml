@@ -2,7 +2,7 @@ services:
   inference:
     build:
       context: .
-      dockerfile: flask_app.Dockerfile
+      dockerfile: Dockerfile
     image: run-tracker
     volumes:
       - ./src:/app/src

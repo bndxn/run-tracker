@@ -1,0 +1,64 @@
+{
+    "family": "run-tracker",
+    "containerDefinitions": [
+        {
+            "name": "run-tracker",
+            "image": "685541680156.dkr.ecr.eu-west-2.amazonaws.com/run-tracker:cce6fc5",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "run-tracker-80-tcp",
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "GARMIN_PASSWORD",
+                    "value": "..."
+                },
+                {
+                    "name": "GARMIN_USERNAME",
+                    "value": "..."
+                },
+                {
+                    "name": "OPENAI_API_KEY",
+                    "value": "..."
+                }
+            ],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/run-tracker",
+                    "mode": "non-blocking",
+                    "awslogs-create-group": "true",
+                    "max-buffer-size": "25m",
+                    "awslogs-region": "eu-west-2",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            },
+            "systemControls": []
+        }
+    ],
+    "executionRoleArn": "arn:aws:iam::685541680156:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "volumes": [],
+    "placementConstraints": [],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "1024",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    }
+}

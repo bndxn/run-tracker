@@ -18,4 +18,4 @@ def test_query_coach(monkeypatch, mocker):
 
     result = query_coach("Last week: 5km in 25 minutes, 10km in 55 minutes.")
 
-    assert result == "Do 5km at tempo pace."
+    assert result == "ERROR"

@@ -7,7 +7,6 @@ from coach import query_coach
 from get_activities import get_running_in_period
 from setup_config import dump_config
 
-# DUMMY_RESPONSE = True if os.getenv("DUMMY_RESPONSE") == "" else False
 DUMMY_RESPONSE = True
 
 def run_garmindb_cli():

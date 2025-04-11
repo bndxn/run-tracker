@@ -20,4 +20,7 @@ ENV PYTHONPATH=/app/src
 EXPOSE 80
 
 # Run application
+RUN "python src/setup_config.py"
+
+
 CMD ["sh", "-c", "python src/setup_config.py && python src/web_app.py"]

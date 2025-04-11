@@ -7,6 +7,9 @@ app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.abspa
 
 from main import main
 
+@app.route("/health")
+def health():
+    return "OK", 200
 
 @app.route("/")
 def hello_world():

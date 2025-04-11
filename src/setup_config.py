@@ -23,8 +23,8 @@ config = {
         "sleep_start_date"              : "01/01/2025",
         "rhr_start_date"                : "01/01/2025",
         "monitoring_start_date"         : "01/01/2025",
-        "download_latest_activities"    : 5,
-        "download_all_activities"       : 10
+        "download_latest_activities"    : 10,
+        "download_all_activities"       : 20
     },
     "directories": {
         "relative_to_home"              : True,

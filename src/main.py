@@ -19,6 +19,7 @@ def run_garmindb_cli():
         "--download",
         "--import",
         "--analyze",
+        "--latest"
     ]
 
     result = subprocess.run(cmd, capture_output=True, text=True)
@@ -35,11 +36,11 @@ def run_garmindb_cli():
 def main():
     if DUMMY_RESPONSE:
         recent_runs = [
-            "2025-03-26 - 5.8 km - 0:40 - 5:27 min/km",
-            "2025-03-25 - 8.6 km - 0:46 - 4:33 min/km",
-            "2025-03-23 - 21.3 km - 1:59 - 5:08 min/km",
-            "2025-03-22 - 5.6 km - 0:33 - 5:52 min/km",
-            "2025-03-22 - 3.6 km - 0:30 - 6:13 min/km"
+            "2025-03-26 - 5.8 km - 0:40 - 5:27 min/km, avg HR: 160",
+            "2025-03-25 - 8.6 km - 0:46 - 4:33 min/km, avg HR: 160",
+            "2025-03-23 - 21.3 km - 1:59 - 5:08 min/km, avg HR: 160",
+            "2025-03-22 - 5.6 km - 0:33 - 5:52 min/km, avg HR: 160",
+            "2025-03-22 - 3.6 km - 0:30 - 6:13 min/km, avg HR: 160"
         ]
         suggested_next_run = (
             "Based on your recent runs, let's focus on a tempo workout today to improve speed and endurance for the "

@@ -42,7 +42,7 @@ def main():
         ]
         suggested_next_run = (
             "Based on your recent runs, let's focus on a tempo workout today to improve speed and endurance for the "
-            "half marathon. Here's the plan:\n\n"
+            "half marathon. Here's the plan stan:\n\n"
             "**Workout: Tempo Run**\n"
             "**Warm-Up:** 10-15 minutes easy jog.\n"
             "**Tempo Portion:** 3 x 2 km at your goal half marathon pace (around 5:08 mins/km), with 2-minute walking or light "

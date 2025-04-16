@@ -1,3 +1,5 @@
+"""Main controller function for the run-tracker application."""
+
 import os
 import subprocess
 import sys
@@ -34,11 +36,9 @@ def run_garmindb_cli():
 def main():
     if DUMMY_RESPONSE:
         recent_runs = [
-            "2025-03-26 - 5.8 km - 0:40 - 5:27 min/km",
-            "2025-03-25 - 8.6 km - 0:46 - 4:33 min/km",
-            "2025-03-23 - 21.3 km - 1:59 - 5:08 min/km",
-            "2025-03-22 - 5.6 km - 0:33 - 5:52 min/km",
-            "2025-03-22 - 3.6 km - 0:30 - 6:13 min/km"
+            "2025-04-16 - 7.4 km - 0:41 - 5:14 mins per km",
+            "2025-04-14 - 11.6 km - 1:16 - 5:08 mins per km",
+            "2025-04-10 - 21.2 km - 1:44 - 4:48 mins per km",
         ]
         suggested_next_run = (
             "Based on your recent runs, let's focus on a tempo workout today to improve speed and endurance for the "

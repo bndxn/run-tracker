@@ -1,3 +1,5 @@
+"""Contains helpers to get activities from GarminDB and return them in an easily-readable format."""
+
 from datetime import datetime
 
 import numpy as np
@@ -10,26 +12,39 @@ db_params_dict = gc_config.get_db_params()
 garmin_db = GarminDb(db_params_dict)
 garmin_act_db = ActivitiesDb(db_params_dict)
 
+def convert_kph_to_mins_per_km(kph: float) -> tuple[int, int]:
+    """Converts speed in kilometers per hour (kph) to pace in minutes and seconds per kilometer.
 
-def convert_kph_to_mins_per_km(kph: float):
+    Args:
+        kph (float): Speed in kilometers per hour.
 
+    Returns:
+        tuple: A tuple (pace_minutes, pace_seconds) representing the time to complete one kilometer.
+    """
     total_seconds_per_km = 3600 / kph
     pace_minutes = int(total_seconds_per_km // 60)
     pace_seconds = int(round(total_seconds_per_km % 60))
     return pace_minutes, pace_seconds
 
 
-def get_running_in_period(earliest_date: datetime, latest_date: datetime):
+def get_running_in_period(earliest_date: datetime, latest_date: datetime) -> list[str]:
+    """Retrieves and filters recent running activities within a given date range.
 
-    """Queries the 100 most recent activities, then returns the date, distance, and duration for those in a period.
+    This function queries the 100 most recent activities and returns a list of strings
+    describing each run within the specified period. Each entry includes the start date,
+    distance, duration, and pace in minutes per kilometer.
+
+    Args:
+        earliest_date (datetime): The start of the date range.
+        latest_date (datetime): The end of the date range.
 
     Returns:
-        list: a list containing dictionaries of the starting date, distance, and duration, for each run in the period.
+        list: A list of formatted strings for each run in the period, including the date,
+              distance (in km), duration, and pace per kilometer.
     """
-
     output = []
 
-    activities = Activities.get_latest(garmin_act_db, 10)
+    activities = Activities.get_latest(garmin_act_db, 100)
     for activity in activities:
         if (activity.sport == "running" and earliest_date < activity.stop_time < latest_date):
             pace_minutes, pace_seconds = convert_kph_to_mins_per_km(float(activity.avg_speed))

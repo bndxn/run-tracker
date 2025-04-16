@@ -6,7 +6,7 @@ from coach import query_coach
 
 def test_query_coach(monkeypatch, mocker):
 
-    monkeypatch.setenv("openai_api_key", "ABC-123")
+    monkeypatch.setenv("OPENAI_API_KEY", "ABC-123")
 
     mock_response = mocker.Mock()
     mock_response.choices = [

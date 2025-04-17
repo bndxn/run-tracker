@@ -1,4 +1,5 @@
-# Generated with gpt-4 deep research!
+"""Contains an example training plan. Generated with gpt-4 deep research!"""
+
 
 training_plan = {
   "goal": "Half Marathon in 1h35 on Sunday 27th April 2025",

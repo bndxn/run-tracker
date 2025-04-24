@@ -115,7 +115,7 @@ def copy_data(overwite, latest, stats):
         copy.copy_sleep(monitoring_dir, latest)
 
 
-def download_data(overwite, latest, stats):
+def download_data(overwite, latest, stats, non_activity_data):
     """Download selected activity types from Garmin Connect and save the data in files. Overwrite previously downloaded data if indicated."""
     logger.info("___Downloading %s Data___", "Latest" if latest else "All")
 
@@ -134,83 +134,84 @@ def download_data(overwite, latest, stats):
         download.get_activity_types(activities_dir, overwite)
         download.get_activities(activities_dir, activity_count, overwite)
 
-    if Statistics.monitoring in stats:
-        date, days = __get_date_and_days(
-            MonitoringDb(db_params_dict),
-            latest,
-            MonitoringHeartRate,
-            MonitoringHeartRate.heart_rate,
-            "monitoring",
-        )
-        if days > 0:
-            monitoring_dir = gc_config.get_monitoring_base_dir()
-            root_logger.info(
-                "Date range to update: %s (%d) to %s", date, days, monitoring_dir
+    if non_activity_data:
+        if Statistics.monitoring in stats:
+            date, days = __get_date_and_days(
+                MonitoringDb(db_params_dict),
+                latest,
+                MonitoringHeartRate,
+                MonitoringHeartRate.heart_rate,
+                "monitoring",
             )
-            download.get_daily_summaries(
-                gc_config.get_monitoring_dir, date, days, overwite
-            )
-            download.get_hydration(gc_config.get_monitoring_dir, date, days, overwite)
-            download.get_monitoring(gc_config.get_monitoring_dir, date, days)
-            root_logger.info(
-                "Saved monitoring files for %s (%d) to %s for processing",
-                date,
-                days,
-                monitoring_dir,
-            )
+            if days > 0:
+                monitoring_dir = gc_config.get_monitoring_base_dir()
+                root_logger.info(
+                    "Date range to update: %s (%d) to %s", date, days, monitoring_dir
+                )
+                download.get_daily_summaries(
+                    gc_config.get_monitoring_dir, date, days, overwite
+                )
+                download.get_hydration(gc_config.get_monitoring_dir, date, days, overwite)
+                download.get_monitoring(gc_config.get_monitoring_dir, date, days)
+                root_logger.info(
+                    "Saved monitoring files for %s (%d) to %s for processing",
+                    date,
+                    days,
+                    monitoring_dir,
+                )
 
-    if Statistics.sleep in stats:
-        date, days = __get_date_and_days(
-            GarminDb(db_params_dict), latest, Sleep, Sleep.total_sleep, "sleep"
-        )
-        if days > 0:
-            sleep_dir = gc_config.get_sleep_dir()
-            root_logger.info(
-                "Date range to update: %s (%d) to %s", date, days, sleep_dir
+        if Statistics.sleep in stats:
+            date, days = __get_date_and_days(
+                GarminDb(db_params_dict), latest, Sleep, Sleep.total_sleep, "sleep"
             )
-            download.get_sleep(sleep_dir, date, days, overwite)
-            root_logger.info(
-                "Saved sleep files for %s (%d) to %s for processing",
-                date,
-                days,
-                sleep_dir,
-            )
+            if days > 0:
+                sleep_dir = gc_config.get_sleep_dir()
+                root_logger.info(
+                    "Date range to update: %s (%d) to %s", date, days, sleep_dir
+                )
+                download.get_sleep(sleep_dir, date, days, overwite)
+                root_logger.info(
+                    "Saved sleep files for %s (%d) to %s for processing",
+                    date,
+                    days,
+                    sleep_dir,
+                )
 
-    if Statistics.weight in stats:
-        date, days = __get_date_and_days(
-            GarminDb(db_params_dict), latest, Weight, Weight.weight, "weight"
-        )
-        if days > 0:
-            weight_dir = gc_config.get_weight_dir()
-            root_logger.info(
-                "Date range to update: %s (%d) to %s", date, days, weight_dir
+        if Statistics.weight in stats:
+            date, days = __get_date_and_days(
+                GarminDb(db_params_dict), latest, Weight, Weight.weight, "weight"
             )
-            download.get_weight(weight_dir, date, days, overwite)
-            root_logger.info(
-                "Saved weight files for %s (%d) to %s for processing",
-                date,
-                days,
-                weight_dir,
+            if days > 0:
+                weight_dir = gc_config.get_weight_dir()
+                root_logger.info(
+                    "Date range to update: %s (%d) to %s", date, days, weight_dir
+                )
+                download.get_weight(weight_dir, date, days, overwite)
+                root_logger.info(
+                    "Saved weight files for %s (%d) to %s for processing",
+                    date,
+                    days,
+                    weight_dir,
+                )
+
+        if Statistics.rhr in stats:
+            date, days = __get_date_and_days(
+                GarminDb(db_params_dict),
+                latest,
+                RestingHeartRate,
+                RestingHeartRate.resting_heart_rate,
+                "rhr",
             )
-
-    if Statistics.rhr in stats:
-        date, days = __get_date_and_days(
-            GarminDb(db_params_dict),
-            latest,
-            RestingHeartRate,
-            RestingHeartRate.resting_heart_rate,
-            "rhr",
-        )
-        if days > 0:
-            rhr_dir = gc_config.get_rhr_dir()
-            root_logger.info("Date range to update: %s (%d) to %s", date, days, rhr_dir)
-            download.get_rhr(rhr_dir, date, days, overwite)
-            root_logger.info(
-                "Saved rhr files for %s (%d) to %s for processing", date, days, rhr_dir
-            )
+            if days > 0:
+                rhr_dir = gc_config.get_rhr_dir()
+                root_logger.info("Date range to update: %s (%d) to %s", date, days, rhr_dir)
+                download.get_rhr(rhr_dir, date, days, overwite)
+                root_logger.info(
+                    "Saved rhr files for %s (%d) to %s for processing", date, days, rhr_dir
+                )
 
 
-def import_data(debug, latest, stats):
+def import_data(debug, latest, stats, non_activity_data: bool):
     """Import previously downloaded Garmin data into the database."""
     logger.info("___Importing %s Data___", "Latest" if latest else "All")
 
@@ -234,56 +235,6 @@ def import_data(debug, latest, stats):
 
     gdb = GarminDb(db_params_dict)
     measurement_system = Attributes.measurements_type(gdb)
-
-    if Statistics.weight in stats:
-        weight_dir = gc_config.get_weight_dir()
-        gwd = GarminWeightData(
-            db_params_dict, weight_dir, latest, measurement_system, debug
-        )
-        if gwd.file_count() > 0:
-            gwd.process()
-
-    monitoring_dir = gc_config.get_monitoring_base_dir()
-    if Statistics.monitoring in stats:
-        gsd = GarminSummaryData(
-            db_params_dict, monitoring_dir, latest, measurement_system, debug
-        )
-        if gsd.file_count() > 0:
-            gsd.process()
-
-        ghd = GarminHydrationData(
-            db_params_dict, monitoring_dir, latest, measurement_system, debug
-        )
-        if ghd.file_count() > 0:
-            ghd.process()
-
-        gfd = GarminMonitoringFitData(monitoring_dir, latest, measurement_system, debug)
-        if gfd.file_count() > 0:
-            gfd.process_files(
-                MonitoringFitFileProcessor(db_params_dict, plugin_manager, debug)
-            )
-
-    if Statistics.sleep in stats:
-        # If we have sleep data from Garmin connect, use it, otherwise process FIT sleep files.
-        sleep_dir = gc_config.get_sleep_dir()
-        gsd = GarminSleepData(db_params_dict, sleep_dir, latest, debug)
-        if gsd.file_count() > 0:
-            gsd.process()
-        else:
-            gsd = GarminSleepFitData(
-                monitoring_dir,
-                latest=False,
-                measurement_system=measurement_system,
-                debug=2,
-            )
-            if gsd.file_count() > 0:
-                gsd.process_files(SleepFitFileProcessor(db_params_dict))
-
-    if Statistics.rhr in stats:
-        rhr_dir = gc_config.get_rhr_dir()
-        grhrd = GarminRhrData(db_params_dict, rhr_dir, latest, debug)
-        if grhrd.file_count() > 0:
-            grhrd.process()
 
     if Statistics.activities in stats:
         activities_dir = gc_config.get_activities_dir()
@@ -309,6 +260,59 @@ def import_data(debug, latest, stats):
             gfd.process_files(
                 ActivityFitFileProcessor(db_params_dict, plugin_manager, debug)
             )
+
+    if non_activity_data:
+        if Statistics.weight in stats:
+            weight_dir = gc_config.get_weight_dir()
+            gwd = GarminWeightData(
+                db_params_dict, weight_dir, latest, measurement_system, debug
+            )
+            if gwd.file_count() > 0:
+                gwd.process()
+
+        monitoring_dir = gc_config.get_monitoring_base_dir()
+        if Statistics.monitoring in stats:
+            gsd = GarminSummaryData(
+                db_params_dict, monitoring_dir, latest, measurement_system, debug
+            )
+            if gsd.file_count() > 0:
+                gsd.process()
+
+            ghd = GarminHydrationData(
+                db_params_dict, monitoring_dir, latest, measurement_system, debug
+            )
+            if ghd.file_count() > 0:
+                ghd.process()
+
+            gfd = GarminMonitoringFitData(monitoring_dir, latest, measurement_system, debug)
+            if gfd.file_count() > 0:
+                gfd.process_files(
+                    MonitoringFitFileProcessor(db_params_dict, plugin_manager, debug)
+                )
+
+        if Statistics.sleep in stats:
+            # If we have sleep data from Garmin connect, use it, otherwise process FIT sleep files.
+            sleep_dir = gc_config.get_sleep_dir()
+            gsd = GarminSleepData(db_params_dict, sleep_dir, latest, debug)
+            if gsd.file_count() > 0:
+                gsd.process()
+            else:
+                gsd = GarminSleepFitData(
+                    monitoring_dir,
+                    latest=False,
+                    measurement_system=measurement_system,
+                    debug=2,
+                )
+                if gsd.file_count() > 0:
+                    gsd.process_files(SleepFitFileProcessor(db_params_dict))
+
+        if Statistics.rhr in stats:
+            rhr_dir = gc_config.get_rhr_dir()
+            grhrd = GarminRhrData(db_params_dict, rhr_dir, latest, debug)
+            if grhrd.file_count() > 0:
+                grhrd.process()
+
+
 
 
 def analyze_data(debug):

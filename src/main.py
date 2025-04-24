@@ -17,7 +17,6 @@ def run_garmindb_cli():
         "--activities",
         "--download",
         "--import",
-        "--analyze",
     ]
 
     result = subprocess.run(cmd, capture_output=True, text=True)

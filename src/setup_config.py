@@ -58,7 +58,20 @@ config = {
 }
 
 
-def dump_config():
+def dump_config(config: dict) -> None:
+    """Dumps the provided Garmin Connect configuration to a JSON file.
+
+    This function writes the given `config` dictionary to a file named
+    `GarminConnectConfig.json` in the user's home directory under the `.GarminDb` folder.
+    If the directory does not exist, it is created.
+
+    Args:
+        config (dict): The configuration data to be saved.
+
+    Raises:
+        TypeError: If `config` contains non-serializable values.
+        OSError: If the file or directory cannot be created or written to.
+    """
     home_dir = Path.home()
     config_path = home_dir / ".GarminDb" / "GarminConnectConfig.json"
 
@@ -67,5 +80,6 @@ def dump_config():
     with open(config_path, "w") as f:
         json.dump(config, f, indent=2)
 
+
 if __name__ == "__main__":
-    dump_config()
+    dump_config(config)

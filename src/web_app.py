@@ -7,6 +7,7 @@ app = Flask(__name__, template_folder='templates')
 
 from main import main
 
+
 @app.route("/health")
 def health():
     return "OK", 200

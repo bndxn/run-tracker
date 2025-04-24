@@ -3,7 +3,7 @@ import os
 import markdown
 from flask import Flask, render_template
 
-app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates'))
+app = Flask(__name__, template_folder='templates')
 
 from main import main
 

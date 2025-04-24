@@ -12,8 +12,7 @@ from garmindb.garmindb import Activities
 
 def download_and_import_all_activity_data(debug=0, overwrite=True):
     """
-    Download and import all available Garmin Connect personal and activity data. This information is stored to the
-    directory HealthData in the root director.y
+    Download and import all available Garmin Connect personal and activity data. This information is stored to the directory HealthData in the root directory.
     """
     stats = gc_config.enabled_stats()
 
@@ -22,7 +21,8 @@ def download_and_import_all_activity_data(debug=0, overwrite=True):
     import_data(debug, latest=False, stats=stats, non_activity_data=False)
     logger.info("Data download, import, and analysis complete.")
 
-def load_database():
+
+def load_database_and_get_activities():
     """
     Load a database instance.
 
@@ -39,6 +39,6 @@ def load_database():
 
 if __name__ == "__main__":
     download_and_import_all_activity_data(debug=1, overwrite=True)
-    activities = load_database(db_type="activities")
+    activities = load_database_and_get_activities()
     for activity in activities:
         print(f"{activity.start_time.date()} - {np.round(activity.distance,2)}")

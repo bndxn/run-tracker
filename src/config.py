@@ -1,5 +1,14 @@
 """Contains an example training plan. Generated with gpt-4 deep research!"""
 
+dummy_response = {
+  "recent_runs" :[
+    "2025-04-16 - 7.4 km - 0:41 - 5:14 mins per km",
+    "2025-04-14 - 11.6 km - 1:16 - 5:08 mins per km",
+    "2025-04-10 - 21.2 km - 1:44 - 4:48 mins per km",
+    ],
+  "suggested_next_run" : "Based on your recent runs, let's focus on a tempo workout today to improve speed and endurance for the half marathon. Here's the plan stan:\n\n **Workout: Tempo Run**\n **Warm-Up:** 10-15 minutes easy jog.\n**Tempo Portion:** 3 x 2 km at your goal half marathon pace (around 5:08 mins/km), with 2-minute walking or light jogging breaks in between.\n**Cool-Down:** 10 minutes easy jog. Remember to stretch after the run and stay hydrated."
+}
+
 
 training_plan = {
   "goal": "Half Marathon in 1h35 on Sunday 27th April 2025",

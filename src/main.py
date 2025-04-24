@@ -29,3 +29,5 @@ def main():
 if __name__ == "__main__":
     DUMMY_RESPONSE = False
     recent_runs, suggested_next_run = main()
+    print(f"Recent runs: {recent_runs}")
+    print(f"Suggested run: {suggested_next_run}")

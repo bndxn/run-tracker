@@ -17,7 +17,10 @@ from flask import Flask, render_template
 
 app = Flask(__name__, template_folder='templates')
 
-from main import main
+from fetch_and_suggest.main import fetch_and_generate_suggestions
+from config import dummy_response
+
+DUMMY_RESPONSE = True
 
 
 @app.route("/health")
@@ -26,7 +29,11 @@ def health():
 
 @app.route("/")
 def hello_world():
-    recent_runs, suggested_next_run = main()
+
+    if DUMMY_RESPONSE:
+        recent_runs, suggested_next_run = dummy_response["recent_runs"], dummy_response["suggested_next_run"]
+    else:
+        recent_runs, suggested_next_run = fetch_and_generate_suggestions()
 
     return render_template(
         'index.html',

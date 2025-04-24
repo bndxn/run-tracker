@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-config = {
+garmin_config = {
     "db": {
         "type"                          : "sqlite"
     },
@@ -82,4 +82,4 @@ def dump_config(config: dict) -> None:
 
 
 if __name__ == "__main__":
-    dump_config(config)
+    dump_config(garmin_config)

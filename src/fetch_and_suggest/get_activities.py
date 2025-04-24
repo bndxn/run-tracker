@@ -1,16 +1,45 @@
-"""Contains helpers to get activities from GarminDB and return them in an easily-readable format."""
 
-from datetime import datetime
+import logging
+import sys
 
 import numpy as np
-from garmindb import GarminConnectConfigManager
-from garmindb.garmindb import Activities, ActivitiesDb, ActivityLaps, GarminDb
 
-gc_config = GarminConnectConfigManager()
-db_params_dict = gc_config.get_db_params()
+logger = logging.getLogger(__file__)
+logger.addHandler(logging.StreamHandler(stream=sys.stdout))
+root_logger = logging.getLogger()
 
-garmin_db = GarminDb(db_params_dict)
-garmin_act_db = ActivitiesDb(db_params_dict)
+from garmindb.garmindb import Activities
+
+from fetch_and_suggest.garmindb_cli import (ActivitiesDb, GarminConnectConfigManager,
+                          download_data, gc_config, import_data)
+
+
+def download_and_import_all_activity_data(debug=0, overwrite=True):
+    """
+    Download and import all available Garmin Connect personal and activity data. This information is stored to the
+    directory HealthData in the root directory.
+    """
+    stats = gc_config.enabled_stats()
+
+    logger.info("Starting full data download and import...")
+    download_data(overwrite, latest=False, stats=stats, non_activity_data=False)
+    import_data(debug, latest=False, stats=stats, non_activity_data=False)
+    logger.info("Data download, import, and analysis complete.")
+
+
+def load_database_and_get_activities(n_latest: int = 5):
+    """
+    Load a database instance.
+
+    Returns:
+    - Instance of GarminDb or ActivitiesDb
+    """
+
+    gc_config = GarminConnectConfigManager()
+    db_params_dict = gc_config.get_db_params()
+    garmin_act_db = ActivitiesDb(db_params_dict)
+
+    return Activities.get_latest(garmin_act_db, n_latest)
 
 def convert_kph_to_mins_per_km(kph: float) -> tuple[int, int]:
     """Converts speed in kilometers per hour (kph) to pace in minutes and seconds per kilometer.
@@ -52,3 +81,11 @@ def extract_activity_metrics(activities: Activities) -> list[str]:
                           f"- {pace_minutes}:{pace_seconds:02d} mins per km")
 
     return output
+
+
+
+if __name__ == "__main__":
+    download_and_import_all_activity_data(debug=1, overwrite=True)
+    activities = load_database_and_get_activities(n_latest=5)
+    for activity in activities:
+        print(f"{activity.start_time.date()} - {np.round(activity.distance,2)}")

@@ -1,18 +1,23 @@
 
 import logging
 import sys
+
 import numpy as np
 
 logger = logging.getLogger(__file__)
 logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 root_logger = logging.getLogger()
 
-from garmindb_cli import gc_config, download_data, import_data, ActivitiesDb, GarminConnectConfigManager
 from garmindb.garmindb import Activities
+
+from garmindb_cli import (ActivitiesDb, GarminConnectConfigManager,
+                          download_data, gc_config, import_data)
+
 
 def download_and_import_all_activity_data(debug=0, overwrite=True):
     """
-    Download and import all available Garmin Connect personal and activity data. This information is stored to the directory HealthData in the root directory.
+    Download and import all available Garmin Connect personal and activity data. This information is stored to the
+    directory HealthData in the root directory.
     """
     stats = gc_config.enabled_stats()
 

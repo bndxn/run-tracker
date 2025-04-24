@@ -1,4 +1,16 @@
+import logging
 import os
+import sys
+
+logging.basicConfig(
+    level=logging.WARNING,
+    handlers=[
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler('garmindb.log', mode='w')
+    ],
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+
 
 import markdown
 from flask import Flask, render_template

@@ -1,15 +1,19 @@
 """Main controller function for the run-tracker application."""
 
-import numpy as np
 import os
 import subprocess
 import sys
 from datetime import datetime, timedelta
-from download_and_import_separately import download_and_import_all_activity_data, load_database_and_get_activities
+
+import numpy as np
+
 from coach import query_coach
+from config import dummy_response
+from download_and_import_separately import (
+    download_and_import_all_activity_data, load_database_and_get_activities)
 from get_activities import extract_activity_metrics
 from setup_config import dump_config
-from config import dummy_response
+import ast
 
 DUMMY_RESPONSE = True
 
@@ -22,6 +26,7 @@ def main():
         download_and_import_all_activity_data()
         activities = load_database_and_get_activities()
         recent_runs = extract_activity_metrics(activities)
+        recent_runs = ast.literal_eval(recent_runs)
         suggested_next_run = query_coach(recent_runs)
     return recent_runs, suggested_next_run
 

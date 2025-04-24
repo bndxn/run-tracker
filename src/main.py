@@ -9,7 +9,7 @@ from coach import query_coach
 from get_activities import get_running_in_period
 from setup_config import dump_config
 
-DUMMY_RESPONSE = False
+DUMMY_RESPONSE = True
 
 def run_garmindb_cli():
     script_path = os.path.abspath("src/garmindb_cli.py")

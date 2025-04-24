@@ -11,7 +11,10 @@ from garmindb_cli import gc_config, download_data, import_data, ActivitiesDb, Ga
 from garmindb.garmindb import Activities
 
 def download_and_import_all_activity_data(debug=0, overwrite=True):
-    """Download and import all available Garmin Connect activity data."""
+    """
+    Download and import all available Garmin Connect personal and activity data. This information is stored to the
+    directory HealthData in the root director.y
+    """
     stats = gc_config.enabled_stats()
 
     logger.info("Starting full data download and import...")
@@ -19,13 +22,9 @@ def download_and_import_all_activity_data(debug=0, overwrite=True):
     import_data(debug, latest=False, stats=stats, non_activity_data=False)
     logger.info("Data download, import, and analysis complete.")
 
-
-def load_database(db_type="garmin"):
+def load_database():
     """
     Load a database instance.
-
-    Parameters:
-    - db_type (str): either 'garmin' or 'activities'
 
     Returns:
     - Instance of GarminDb or ActivitiesDb

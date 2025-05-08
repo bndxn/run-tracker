@@ -20,6 +20,5 @@ ENV PYTHONPATH=/app/src
 EXPOSE 80
 
 # Run application
-RUN poetry run python src/setup_config.py
 
 CMD ["poetry", "run", "python", "src/web_app.py"]

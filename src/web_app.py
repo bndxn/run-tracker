@@ -5,7 +5,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__, template_folder='templates')
 
-from main import main
+from fetch_and_suggest.main import main
 
 
 @app.route("/health")

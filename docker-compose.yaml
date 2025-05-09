@@ -1,15 +1,17 @@
+version: '3.8'
+
 services:
-  inference:
+  lambda-fetch-suggest:
     build:
       context: .
-      dockerfile: Dockerfile
-    image: run-tracker
-    volumes:
-      - ./src:/app/src
+      dockerfile: lambda.Dockerfile
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DOCKER_BUILDKIT=0
       - GARMIN_USERNAME=${GARMIN_USERNAME}
       - GARMIN_PASSWORD=${GARMIN_PASSWORD}
-      - DUMMY_RESPONSE=${DUMMY_RESPONSE}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
     ports:
-      - 80:80
+      - "9001:8080"

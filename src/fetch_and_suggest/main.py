@@ -11,11 +11,9 @@ from datetime import datetime, timedelta
 
 from fetch_and_suggest.coach import query_coach
 from fetch_and_suggest.get_activities import get_running_in_period
-from fetch_and_suggest.setup_config import dump_config
+from fetch_and_suggest.setup_config import S3_BUCKET, S3_PREFIX
 import boto3
 
-S3_BUCKET = os.environ.get("S3_BUCKET", "run-tracker-suggestions")
-S3_PREFIX = os.environ.get("S3_PREFIX", "lambda-outputs")
 
 s3 = boto3.client("s3")
 
@@ -40,6 +38,14 @@ def run_garmindb_cli():
     if result.returncode != 0:
         print(f"Script exited with errors (code {result.returncode})")
 
+def generate_suggestion():
+    run_garmindb_cli()
+    recent_runs = get_running_in_period(
+        datetime.today() - timedelta(days=20), datetime.today()
+    )
+    suggestion = query_coach(recent_runs)
+    return recent_runs, suggestion
+
 def main():
     if DUMMY_RESPONSE:
         recent_runs = [
@@ -48,53 +54,40 @@ def main():
             "2025-04-10 - 21.2 km - 1:44 - 4:48 mins per km"
             "Date - distance km - time - pace ",
         ]
-        suggested_next_run = (
+        suggestion = (
             "Dummy next run"
             "Run 10K at a 5 mins per km pace! Why not?")
+        return recent_runs, suggestion
     else:
-        run_garmindb_cli()
-        recent_runs = get_running_in_period(
-            datetime.today() - timedelta(days=20), datetime.today()
-        )
-        suggested_next_run = query_coach(recent_runs)
-    return recent_runs, suggested_next_run
+        return generate_suggestion()
 
+
+def save_to_s3(data: dict, bucket: str, prefix: str) -> str:
+    key = f"{prefix}/recent_runs_{datetime.now().isoformat()}.json"
+    s3.put_object(
+        Bucket=bucket,
+        Key=key,
+        Body=json.dumps(data),
+        ContentType="application/json"
+    )
+    return key
 
 def lambda_handler(event, context):
-    run_garmindb_cli()
-    recent_runs = get_running_in_period(
-        datetime.today() - timedelta(days=20), datetime.today()
-    )
-
-    suggested_next_run = query_coach(recent_runs)
-
+    recent_runs, suggestion = generate_suggestion()
 
     output = {
         "timestamp": datetime.now().isoformat(),
         "recent_runs": recent_runs,
-        "suggested_next_run": suggested_next_run
+        "suggestion": suggestion
     }
 
-    key = f"{S3_PREFIX}/recent_runs_{datetime.now().isoformat()}.json"
-
-    s3.put_object(
-        Bucket=S3_BUCKET,
-        Key=key,
-        Body=json.dumps(output),
-        ContentType="application/json"
-    )
+    key = save_to_s3(output, S3_BUCKET, S3_PREFIX)
 
     return {
         'statusCode': 200,
-        'body': json.dumps({"s3_key": key, "recent_runs": recent_runs, "suggested_next_run": suggested_next_run})
+        'body': json.dumps({"s3_key": key, "recent_runs": recent_runs, "suggestion": suggestion})
     }
 
 if __name__ == "__main__":
-    run_garmindb_cli()
-    last_week = get_running_in_period(
-        datetime.today() - timedelta(days=20), datetime.today()
-    )
-    print(last_week)
-    print("Generating a suggested workout for today:")
-    suggestion = query_coach(last_week)
-    print(suggestion)
+    recent_runs, suggestion = generate_suggestion()
+    print(recent_runs, suggestion)

@@ -40,9 +40,7 @@ def run_garmindb_cli():
 
 def generate_suggestion():
     run_garmindb_cli()
-    recent_runs = get_running_in_period(
-        datetime.today() - timedelta(days=20), datetime.today()
-    )
+    recent_runs = get_running_in_period()
     suggestion = query_coach(recent_runs)
     return recent_runs, suggestion
 

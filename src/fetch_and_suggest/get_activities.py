@@ -27,7 +27,7 @@ def convert_kph_to_mins_per_km(kph: float) -> tuple[int, int]:
     return pace_minutes, pace_seconds
 
 
-def get_running_in_period(earliest_date: datetime, latest_date: datetime) -> list[str]:
+def get_running_in_period() -> list[str]:
     """Retrieves and filters recent running activities within a given date range.
 
     This function queries the 100 most recent activities and returns a list of strings
@@ -44,9 +44,9 @@ def get_running_in_period(earliest_date: datetime, latest_date: datetime) -> lis
     """
     output = []
 
-    activities = Activities.get_latest(garmin_act_db, 100)
+    activities = Activities.get_latest(garmin_act_db, 5)
     for activity in activities:
-        if (activity.sport == "running" and earliest_date < activity.stop_time < latest_date):
+        if activity.sport == "running": # and earliest_date < activity.stop_time < latest_date):
             pace_minutes, pace_seconds = convert_kph_to_mins_per_km(float(activity.avg_speed))
             h, m, s = map(lambda x: round(float(x)), str(activity.elapsed_time).split(":"))
             output.append(f"{activity.start_time.date()} - {np.round(activity.distance,1)} km - {h}:{m} "

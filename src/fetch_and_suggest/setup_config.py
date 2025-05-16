@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+S3_BUCKET = os.environ.get("S3_BUCKET", "run-tracker-suggestions")
+S3_PREFIX = os.environ.get("S3_PREFIX", "lambda-outputs")
+
 config = {
     "db": {
         "type"                          : "sqlite"
@@ -79,7 +82,3 @@ def dump_config(config: dict) -> None:
 
     with open(config_path, "w") as f:
         json.dump(config, f, indent=2)
-
-
-if __name__ == "__main__":
-    dump_config(config)

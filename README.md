@@ -35,12 +35,10 @@ Requires OpenAI API key, Garmin username and password - currently env variables 
 
 ## Improvement ideas
 
-Ideas of things to implement, from least to most crazy:
-* Put this on a Flask website
-* Maybe have this running in a Lambda every day, or triggered in some way
-* Store new run results in an S3 bucket? Maybe not needed
-* Use Terraform to deploy the infrastructure to do the above with a nice CI/CD pipeline
-* Extract interval times and send them as part of the prompt, e.g. ran 8x400m at an average pace of X:.. mins/km.
+- [X] Set up a CI/CD pipeline which runs test and does automated deployment
+- [ ] Use a lambda to fetch runs and generate suggestions then save to S3 bucket, which front end picks up
+- [ ] Use Terraform to deploy the infrastructure to do the above with a nice CI/CD pipeline
+- [ ] Extract interval times and send them as part of the prompt, e.g. ran 8x400m at an average pace of X:.. mins/km.
 * Have different coach personas (old fashioned Pete who's all about slow running, modern Steve who loves strength and conditioning, and crazy Jack who insists on an even number of kilometers per day and as a weekly total)
 * Use deep research to generate some exercise science, then feed that in as part of a RAG system?
 
@@ -55,3 +53,5 @@ Ideas of things to implement, from least to most crazy:
 docker build -t run-tracker -f flask_app.Dockerfile --build-arg PYTHONPATH=$PYTHONPATH --build-arg PWD=$PWD .
 docker buildx build  --platform linux/amd64 -t run-tracker -f flask_app.Dockerfile --build-arg PYTHONPATH=$PYTHONPATH --build-arg PWD=$PWD .
 ```
+
+## Lambda

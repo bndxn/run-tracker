@@ -34,8 +34,8 @@ from garmindb import GarminConnectConfigManager, PluginManager
 from garmindb import Statistics
 from garmindb import OpenWithBaseCamp, OpenWithGoogleEarth
 
-
-logging.basicConfig(filename='garmindb.log', filemode='w', level=logging.INFO)
+log_path = os.path.join('/tmp', 'garmindb.log')
+logging.basicConfig(filename=log_path, filemode='w', level=logging.INFO)
 logger = logging.getLogger(__file__)
 logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 root_logger = logging.getLogger()

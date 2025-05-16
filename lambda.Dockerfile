@@ -10,5 +10,6 @@ RUN pip install --upgrade pip && pip install poetry \
 COPY src/ ./src/
 
 ENV PYTHONPATH=/var/task/src
+ENV HOME=/tmp
 
 CMD ["src.fetch_and_suggest.main.lambda_handler"]

@@ -1,10 +1,10 @@
-import os
 import json
-import markdown
-from flask import Flask, render_template
+import os
 
 import boto3
+import markdown
 from botocore.exceptions import ClientError
+from flask import Flask, render_template
 
 app = Flask(__name__, template_folder='templates')
 

@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 # Define the event to send to the Lambda function
 event = {

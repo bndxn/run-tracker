@@ -1,6 +1,7 @@
 """Main controller function for the run-tracker application."""
 
 from fetch_and_suggest.setup_config import config, dump_config
+
 dump_config(config)
 
 import json
@@ -9,11 +10,11 @@ import subprocess
 import sys
 from datetime import datetime, timedelta
 
+import boto3
+
 from fetch_and_suggest.coach import query_coach
 from fetch_and_suggest.get_activities import get_running_in_period
 from fetch_and_suggest.setup_config import S3_BUCKET, S3_PREFIX
-import boto3
-
 
 s3 = boto3.client("s3")
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-"""
-A script that imports and analyzes Garmin health device data into a database.
+"""A script that imports and analyzes Garmin health device data into a database.
 
 The data is either copied from a USB mounted Garmin device or downloaded from Garmin Connect.
 """

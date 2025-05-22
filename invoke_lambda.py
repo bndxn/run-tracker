@@ -1,3 +1,5 @@
+"""Tests lambda locally."""
+
 import json
 
 import requests
@@ -10,6 +12,7 @@ LAMBDA_URL = "http://localhost:9001/2015-03-31/functions/function/invocations"
 
 
 def invoke_lambda(event_payload):
+    """Test lambda."""
     response = requests.post(
         LAMBDA_URL,
         data=json.dumps(event_payload),

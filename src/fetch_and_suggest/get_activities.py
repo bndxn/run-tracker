@@ -6,11 +6,7 @@ import numpy as np
 from garmindb import GarminConnectConfigManager
 from garmindb.garmindb import Activities, ActivitiesDb, ActivityLaps, GarminDb
 
-gc_config = GarminConnectConfigManager()
-db_params_dict = gc_config.get_db_params()
 
-garmin_db = GarminDb(db_params_dict)
-garmin_act_db = ActivitiesDb(db_params_dict)
 
 def convert_kph_to_mins_per_km(kph: float) -> tuple[int, int]:
     """Converts speed in kilometers per hour (kph) to pace in minutes and seconds per kilometer.
@@ -44,9 +40,15 @@ def get_running_in_period() -> list[str]:
     """
     output = []
 
+    gc_config = GarminConnectConfigManager()
+    db_params_dict = gc_config.get_db_params()
+
+    garmin_db = GarminDb(db_params_dict)
+    garmin_act_db = ActivitiesDb(db_params_dict)
+
     activities = Activities.get_latest(garmin_act_db, 5)
     for activity in activities:
-        if activity.sport == "running": # and earliest_date < activity.stop_time < latest_date):
+        if activity.sport == "running":
             pace_minutes, pace_seconds = convert_kph_to_mins_per_km(float(activity.avg_speed))
             h, m, s = map(lambda x: round(float(x)), str(activity.elapsed_time).split(":"))
             output.append(f"{activity.start_time.date()} - {np.round(activity.distance,1)} km - {h}:{m} "

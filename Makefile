@@ -9,6 +9,3 @@ install:
 
 tests:
 	poetry run pytest
-
-format:
-	poetry run isort .

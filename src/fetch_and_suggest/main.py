@@ -1,9 +1,6 @@
 """Main controller function for the run-tracker application."""
 
-from fetch_and_suggest.setup_config import config, dump_config
-
-dump_config(config)
-
+from fetch_and_suggest.setup_config import dump_config
 import json
 import os
 import subprocess
@@ -14,7 +11,7 @@ import boto3
 
 from fetch_and_suggest.coach import query_coach
 from fetch_and_suggest.get_activities import get_running_in_period
-from fetch_and_suggest.setup_config import S3_BUCKET, S3_PREFIX, ensure_openai_api_key_env_set, ensure_garmin_credentials_set
+from fetch_and_suggest.setup_config import S3_BUCKET, S3_PREFIX, ensure_external_credentials_set
 
 s3 = boto3.client("s3")
 
@@ -30,8 +27,7 @@ def run_garmindb_cli():
         "--import",
         "--analyze"
     ]
-    env = os.environ.copy()
-    result = subprocess.run(cmd, capture_output=True, text=True, env=env)
+    result = subprocess.run(cmd, capture_output=True, text=True)
 
     if result.stderr:
         print("Errors:", result.stderr)
@@ -40,29 +36,15 @@ def run_garmindb_cli():
         print(f"Script exited with errors (code {result.returncode})")
 
 def generate_suggestion():
-    ensure_openai_api_key_env_set()
-    ensure_garmin_credentials_set()
-    print("GARMIN_USERNAME:", os.environ.get("GARMIN_USERNAME"))
-    print("GARMIN_PASSWORD:", os.environ.get("GARMIN_PASSWORD"))
-    run_garmindb_cli()
-    recent_runs = get_running_in_period()
-    suggestion = query_coach(recent_runs)
-    return recent_runs, suggestion
-
-def main():
+    ensure_external_credentials_set()
+    dump_config()
     if DUMMY_RESPONSE:
-        recent_runs = [
-            "2025-04-16 - 7.4 km - 0:41 - 5:14 mins per km",
-            "2025-04-14 - 11.6 km - 1:16 - 5:08 mins per km",
-            "2025-04-10 - 21.2 km - 1:44 - 4:48 mins per km"
-            "Date - distance km - time - pace ",
-        ]
-        suggestion = (
-            "Dummy next run"
-            "Run 10K at a 5 mins per km pace! Why not?")
-        return recent_runs, suggestion
+        return (["A recent run", "Another run"], "Run 10K at 5mins per km")
     else:
-        return generate_suggestion()
+        run_garmindb_cli()
+        recent_runs = get_running_in_period()
+        suggestion = query_coach(recent_runs)
+        return recent_runs, suggestion
 
 
 def save_to_s3(data: dict, bucket: str, prefix: str) -> str:
@@ -90,7 +72,3 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': json.dumps({"s3_key": key, "recent_runs": recent_runs, "suggestion": suggestion})
     }
-
-if __name__ == "__main__":
-    recent_runs, suggestion = generate_suggestion()
-    print(recent_runs, suggestion)

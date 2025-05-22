@@ -48,7 +48,7 @@
             "systemControls": []
         }
     ],
-    "executionRoleArn": "arn:aws:iam::685541680156:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::685541680156:role/run-tracker-ecs-task-execution",
     "networkMode": "awsvpc",
     "volumes": [],
     "placementConstraints": [],

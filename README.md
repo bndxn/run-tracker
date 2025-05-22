@@ -29,22 +29,20 @@ A rough outline of how this could look.
 ![architecture](images/architecture.png)
 
 
-# Set up
 
-Requires OpenAI API key, Garmin username and password - currently env variables set in `.env` file.
+## To-dos
 
-## Improvement ideas
-
-- [X] Set up a CI/CD pipeline which runs test and does automated deployment
-- [ ] Use a lambda to fetch runs and generate suggestions then save to S3 bucket, which front end picks up
-- [ ] Use Terraform to deploy the infrastructure to do the above with a nice CI/CD pipeline
+- [X] Create basic front end
+- [X] Set up a CI/CD pipeline including running testing
+- [X] Use a lambda to fetch runs and generate suggestions then save to S3 bucket, which front end picks up
+- [X] Change lambda to get credentials from AWS Secrets Manager
+- [ ] Do a nice architecture diagram
+- [ ] Use Terraform or some IAC to deploy the infrastructure
+- [ ] Add unit tests
+- [ ] Add integration testing with credentials
 - [ ] Extract interval times and send them as part of the prompt, e.g. ran 8x400m at an average pace of X:.. mins/km.
 * Have different coach personas (old fashioned Pete who's all about slow running, modern Steve who loves strength and conditioning, and crazy Jack who insists on an even number of kilometers per day and as a weekly total)
 * Use deep research to generate some exercise science, then feed that in as part of a RAG system?
-
-## Thanks to
-
-* Building a CI/CD Pipeline with Flask, Docker, GitHub Actions, AWS ECR and AWS ECS: https://blog.devops.dev/building-a-ci-cd-pipeline-with-flask-docker-github-actions-aws-ecr-and-aws-ecs-51ff2f69ff4c
 
 
 ## Docker commands

@@ -8,7 +8,6 @@ from openai import OpenAI
 load_dotenv()
 
 
-
 def query_coach(recent_running_times: str) -> str:
     """Generates a running workout suggestion based on recent running activity.
 

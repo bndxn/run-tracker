@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def get_secret(secret_name: str, region_name: str="eu-west-2"):
+
+def get_secret(secret_name: str, region_name: str = "eu-west-2"):
     session = boto3.session.Session()
     client = session.client(service_name="secretsmanager", region_name=region_name)
 
@@ -24,7 +25,6 @@ def get_secret(secret_name: str, region_name: str="eu-west-2"):
         return secret_string
 
 
-
 S3_BUCKET = os.environ.get("S3_BUCKET", "run-tracker-suggestions")
 S3_PREFIX = os.environ.get("S3_PREFIX", "lambda-outputs")
 
@@ -33,11 +33,13 @@ def ensure_openai_api_key_env_set():
     if "OPENAI_API_KEY" not in os.environ:
         os.environ["OPENAI_API_KEY"] = get_secret("OPENAI_API_KEY")
 
+
 def ensure_garmin_credentials_set():
     if "GARMIN_USERNAME" not in os.environ:
         garmin_credentials = get_secret("garmin-credentials")
         os.environ["GARMIN_USERNAME"] = garmin_credentials["GARMIN_USERNAME"]
         os.environ["GARMIN_PASSWORD"] = garmin_credentials["GARMIN_PASSWORD"]
+
 
 def ensure_external_credentials_set():
     ensure_openai_api_key_env_set()
@@ -56,56 +58,44 @@ def dump_config() -> None:
         OSError: If the file or directory cannot be created or written to.
     """
     config = {
-        "db": {
-            "type"                          : "sqlite"
-        },
-        "garmin": {
-            "domain"                        : "garmin.com"
-        },
+        "db": {"type": "sqlite"},
+        "garmin": {"domain": "garmin.com"},
         "credentials": {
-            "user"                          : os.environ.get("GARMIN_USERNAME"),
-            "secure_password"               : False,
-            "password"                      : os.environ.get("GARMIN_PASSWORD")
+            "user": os.environ.get("GARMIN_USERNAME"),
+            "secure_password": False,
+            "password": os.environ.get("GARMIN_PASSWORD"),
         },
         "data": {
-            "weight_start_date"             : "01/01/2025",
-            "sleep_start_date"              : "01/01/2025",
-            "rhr_start_date"                : "01/01/2025",
-            "monitoring_start_date"         : "01/01/2025",
-            "download_latest_activities"    : 5,
-            "download_all_activities"       : 10
+            "weight_start_date": "01/01/2025",
+            "sleep_start_date": "01/01/2025",
+            "rhr_start_date": "01/01/2025",
+            "monitoring_start_date": "01/01/2025",
+            "download_latest_activities": 5,
+            "download_all_activities": 10,
         },
         "directories": {
-            "relative_to_home"              : True,
-            "base_dir"                      : "HealthData",
-            "mount_dir"                     : "/Volumes/GARMIN"
+            "relative_to_home": True,
+            "base_dir": "HealthData",
+            "mount_dir": "/Volumes/GARMIN",
         },
         "enabled_stats": {
-            "monitoring"                    : False,
-            "steps"                         : False,
-            "itime"                         : False,
-            "sleep"                         : False,
-            "rhr"                           : False,
-            "weight"                        : False,
-            "activities"                    : False
+            "monitoring": False,
+            "steps": False,
+            "itime": False,
+            "sleep": False,
+            "rhr": False,
+            "weight": False,
+            "activities": False,
         },
-        "course_views": {
-            "steps"                         : []
-        },
-        "modes": {
-        },
-        "activities": {
-            "display"                       : []
-        },
+        "course_views": {"steps": []},
+        "modes": {},
+        "activities": {"display": []},
         "settings": {
-            "metric"                        : False,
-            "default_display_activities"    : ["running", "cycling"]
+            "metric": False,
+            "default_display_activities": ["running", "cycling"],
         },
-        "checkup": {
-            "look_back_days"                : 90
-        }
+        "checkup": {"look_back_days": 90},
     }
-
 
     home_dir = Path.home()
     config_path = home_dir / ".GarminDb" / "GarminConnectConfig.json"

@@ -1,11 +1,8 @@
 """Contains helpers to get activities from GarminDB and return them in an easily-readable format."""
 
-from datetime import datetime
-
 import numpy as np
 from garmindb import GarminConnectConfigManager
-from garmindb.garmindb import Activities, ActivitiesDb, ActivityLaps, GarminDb
-
+from garmindb.garmindb import Activities, ActivitiesDb
 
 
 def convert_kph_to_mins_per_km(kph: float) -> tuple[int, int]:
@@ -43,15 +40,20 @@ def get_running_in_period() -> list[str]:
     gc_config = GarminConnectConfigManager()
     db_params_dict = gc_config.get_db_params()
 
-    garmin_db = GarminDb(db_params_dict)
     garmin_act_db = ActivitiesDb(db_params_dict)
 
     activities = Activities.get_latest(garmin_act_db, 5)
     for activity in activities:
         if activity.sport == "running":
-            pace_minutes, pace_seconds = convert_kph_to_mins_per_km(float(activity.avg_speed))
-            h, m, s = map(lambda x: round(float(x)), str(activity.elapsed_time).split(":"))
-            output.append(f"{activity.start_time.date()} - {np.round(activity.distance,1)} km - {h}:{m} "
-                          f"- {pace_minutes}:{pace_seconds:02d} mins per km")
+            pace_minutes, pace_seconds = convert_kph_to_mins_per_km(
+                float(activity.avg_speed)
+            )
+            h, m, s = map(
+                lambda x: round(float(x)), str(activity.elapsed_time).split(":")
+            )
+            output.append(
+                f"{activity.start_time.date()} - {np.round(activity.distance,1)} km - {h}:{m} "
+                f"- {pace_minutes}:{pace_seconds:02d} mins per km"
+            )
 
     return output

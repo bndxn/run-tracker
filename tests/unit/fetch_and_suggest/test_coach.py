@@ -1,11 +1,7 @@
-import pytest
-from openai import OpenAI
-
 from fetch_and_suggest.coach import query_coach
 
 
 def test_query_coach(monkeypatch, mocker):
-
     monkeypatch.setenv("OPENAI_API_KEY", "ABC-123")
 
     mock_response = mocker.Mock()

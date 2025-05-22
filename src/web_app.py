@@ -1,15 +1,15 @@
 import json
-import os
 
 import boto3
 import markdown
 from botocore.exceptions import ClientError
 from flask import Flask, render_template
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder="templates")
 
 s3 = boto3.client("s3")
 BUCKET_NAME = "run-tracker-suggestions"
+
 
 def get_most_recent_runs_and_suggestions_from_s3():
     try:
@@ -34,18 +34,21 @@ def get_most_recent_runs_and_suggestions_from_s3():
     suggested_next_run = first_layer.get("suggestion", "No suggestion found.")
     return recent_runs, suggested_next_run
 
+
 @app.route("/health")
 def health():
     return "OK", 200
+
 
 @app.route("/")
 def hello_world():
     recent_runs, suggested_next_run = get_most_recent_runs_and_suggestions_from_s3()
     return render_template(
-        'index.html',
+        "index.html",
         recent_runs=recent_runs,
-        suggested_next_run=markdown.markdown(suggested_next_run, extensions=['nl2br'])
+        suggested_next_run=markdown.markdown(suggested_next_run, extensions=["nl2br"]),
     )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app.run(debug=False, port=80, host="0.0.0.0")

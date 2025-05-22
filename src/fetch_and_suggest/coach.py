@@ -8,23 +8,26 @@ from openai import OpenAI
 load_dotenv()
 
 
-
 def query_coach(recent_running_times: str) -> str:
-    """Generates a running workout suggestion based on recent running activity.
+    """Generate a running workout suggestion based on recent running activity.
 
     Uses OpenAI's GPT model to act as a virtual running coach. It takes recent
     running times as input and returns a concise workout suggestion tailored
     to the runner's recent performance.
 
     Args:
+    ----
         recent_running_times (str): A string summarizing recent running activity.
 
     Returns:
+    -------
         str: A concise workout suggestion for the runner.
 
     Raises:
+    ------
         openai.OpenAIError: If the API request fails.
         EnvironmentError: If the OpenAI API key is not set in environment variables.
+
     """
     openai_api_key = os.getenv("OPENAI_API_KEY")
     if not openai_api_key:

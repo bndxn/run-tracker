@@ -1,21 +1,31 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+    rev: v5.0.0
     hooks:
-    -   id: check-yaml
-    -   id: end-of-file-fixer
     -   id: trailing-whitespace
+    -   id: mixed-line-ending
+    -   id: check-json
+    -   id: check-yaml
+    -   id: check-toml
+    -   id: end-of-file-fixer
+    -   id: detect-private-key
+    -   id: no-commit-to-branch
+        args: [--branch, main]
+
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.4.4
+  hooks:
+    - id: ruff
+      args: [--fix]
+      stages: [pre-commit]
+    - id: ruff-format
+      stages: [pre-commit]
+
 -   repo: local
     hooks:
-    -   id: format
-        name: format
-        entry: make format
-        language: system
-        types: [python]
-        stages: [pre-push]
     -   id: pytest
         name: pytest
         entry: make tests
         language: system
         types: [python]
-        stages: [push]
+        stages: [pre-push]

@@ -12,7 +12,6 @@ phases:
       - make install_poetry
       - make install
       - make tests
-      - make format
   build:
     commands:
       - echo Build started on `date`

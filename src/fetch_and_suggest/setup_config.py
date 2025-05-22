@@ -1,11 +1,9 @@
 import json
 import os
 from pathlib import Path
+
 import boto3
 from botocore.exceptions import ClientError
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 def get_secret(secret_name: str, region_name: str = "eu-west-2"):

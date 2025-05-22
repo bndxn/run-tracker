@@ -1,6 +1,5 @@
 """Main controller function for the run-tracker application."""
 
-from fetch_and_suggest.setup_config import dump_config
 import json
 import os
 import subprocess
@@ -14,6 +13,7 @@ from fetch_and_suggest.get_activities import get_running_in_period
 from fetch_and_suggest.setup_config import (
     S3_BUCKET,
     S3_PREFIX,
+    dump_config,
     ensure_external_credentials_set,
 )
 

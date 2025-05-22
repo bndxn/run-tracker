@@ -54,7 +54,9 @@ def get_running_in_period() -> list[str]:
             pace_minutes, pace_seconds = convert_kph_to_mins_per_km(
                 float(activity.avg_speed)
             )
-            h, m = map(lambda x: round(float(x)), str(activity.elapsed_time).split(":"))
+            h, m, _ = map(
+                lambda x: round(float(x)), str(activity.elapsed_time).split(":")
+            )
             output.append(
                 f"{activity.start_time.date()} - {np.round(activity.distance,1)} km - {h}:{m} "
                 f"- {pace_minutes}:{pace_seconds:02d} mins per km"

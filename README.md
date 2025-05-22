@@ -36,6 +36,7 @@ A rough outline of how this could look.
 - [X] Set up a CI/CD pipeline including running testing
 - [X] Use a lambda to fetch runs and generate suggestions then save to S3 bucket, which front end picks up
 - [X] Change lambda to get credentials from AWS Secrets Manager
+- [X] Set up ruff for formatting
 - [ ] Do a nice architecture diagram
 - [ ] Use Terraform or some IAC to deploy the infrastructure
 - [ ] Add unit tests

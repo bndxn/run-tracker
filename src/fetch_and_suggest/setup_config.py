@@ -1,6 +1,25 @@
 import json
 import os
 from pathlib import Path
+import boto3
+from botocore.exceptions import ClientError
+
+def get_secret(secret_name: str, region_name: str="eu-west-2"):
+    session = boto3.session.Session()
+    client = session.client(service_name="secretsmanager", region_name=region_name)
+
+    try:
+        response = client.get_secret_value(SecretId=secret_name)
+    except ClientError as e:
+        raise RuntimeError(f"Failed to retrieve secret: {e}")
+
+    secret_string = response["SecretString"]
+
+    # Try to parse as JSON; if it fails, return the raw string
+    try:
+        return json.loads(secret_string)
+    except json.JSONDecodeError:
+        return secret_string
 
 from dotenv import load_dotenv
 
@@ -8,6 +27,20 @@ load_dotenv()
 
 S3_BUCKET = os.environ.get("S3_BUCKET", "run-tracker-suggestions")
 S3_PREFIX = os.environ.get("S3_PREFIX", "lambda-outputs")
+
+
+def ensure_openai_api_key_env_set():
+    if "OPENAI_API_KEY" not in os.environ:
+        os.environ["OPENAI_API_KEY"] = get_secret("OPENAI_API_KEY")
+
+def ensure_garmin_credentials_set():
+    if "GARMIN_USERNAME" not in os.environ:
+        garmin_credentials = get_secret("garmin-credentials")
+        print("Fetched Garmin credentials:", garmin_credentials)
+        os.environ["GARMIN_USERNAME"] = garmin_credentials["GARMIN_USERNAME"]
+        os.environ["GARMIN_PASSWORD"] = garmin_credentials["GARMIN_PASSWORD"]
+
+ensure_garmin_credentials_set()
 
 config = {
     "db": {

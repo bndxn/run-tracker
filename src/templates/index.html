@@ -97,5 +97,26 @@
         <h2>Suggested Next Run</h2>
         <p>{{ suggested_next_run | safe}}</p>
     </div>
+    <div class="block">
+        <h2>Architecture</h2>
+        <p>The results here are generated as follows:</p>
+        <p><strong>Lambda</strong></p>
+        <img src="{{ url_for('static', filename='run-tracker-lambda.drawio.svg') }}" alt="Lambda" style="width:100%; height:auto;">
+        <ul>
+          <li>Fetch secrets from Secrets Manager</li>
+          <li>Use GarminDB to obtain recent activity data from Garmin Connect</li>
+          <li>Send prompt including recent runs to OpenAI</li>
+          <li>Store response in S3 as a JSON</li>
+        </ul>
+        <p>This Lambda runs every six hours.</p>
+
+        <p><strong>Web app</strong></p>
+        <div style="text-align: center;">
+            <img src="{{ url_for('static', filename='run-tracker-web-app.drawio.svg') }}" alt="Web app" style="width:60%; height:auto;">
+        </div>
+
+        <p>This web app connects to S3 and finds the most recent JSON file. Then it displays on this page!</p>
+
+    </div>
 </body>
 </html>

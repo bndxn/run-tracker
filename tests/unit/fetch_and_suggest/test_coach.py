@@ -1,6 +1,6 @@
 """Tests functions in fetch_and_suggest.coach.py."""
 
-from fetch_and_suggest.coach import query_coach
+from fetch_and_suggest.coach_and_formatter import query_coach
 
 
 def test_query_coach(monkeypatch, mocker):

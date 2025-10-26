@@ -37,13 +37,15 @@ A rough outline of how this could look.
 - [X] Use a lambda to fetch runs and generate suggestions then save to S3 bucket, which front end picks up
 - [X] Change lambda to get credentials from AWS Secrets Manager
 - [X] Set up ruff for formatting
-- [ ] Do a nice architecture diagram
+- [X] Do a nice architecture diagram
+- [ ] Extract interval times and send them as part of the prompt, e.g. ran 8x400m at an average pace of X:.. mins/km.
+- [X] Use deep research to generate a specific exercise plan
+- [ ] Add MFA
+- [ ] Add a graph showing mileage per week, trends over time
+- [ ] Analyse trends in paces per each run, over time, e.g. improvements in 400m interval paces
 - [ ] Use Terraform or some IAC to deploy the infrastructure
 - [ ] Add unit tests
 - [ ] Add integration testing with credentials
-- [ ] Extract interval times and send them as part of the prompt, e.g. ran 8x400m at an average pace of X:.. mins/km.
-* Have different coach personas (old fashioned Pete who's all about slow running, modern Steve who loves strength and conditioning, and crazy Jack who insists on an even number of kilometers per day and as a weekly total)
-* Use deep research to generate some exercise science, then feed that in as part of a RAG system?
 
 
 ## Docker commands

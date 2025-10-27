@@ -7,6 +7,11 @@ import boto3
 
 from fetch_and_suggest.coach_and_formatter import pretty_format, query_coach
 from fetch_and_suggest.get_from_garmin import get_recent_garmin_activities
+from fetch_and_suggest.setup_config import (
+    # S3_BUCKET,
+    # S3_PREFIX,
+    ensure_external_credentials_set,
+)
 
 s3 = boto3.client("s3")
 
@@ -30,6 +35,8 @@ def generate_suggestion():
         a suggestion string.
 
     """
+    ensure_external_credentials_set()
+    # dump_config()
     if DUMMY_RESPONSE:
         return (["A recent run", "Another run"], "Run 10K at 5mins per km")
     else:

@@ -8,7 +8,7 @@ import boto3
 from botocore.exceptions import ClientError
 
 S3_BUCKET = os.environ.get("S3_BUCKET", "run-tracker-suggestions")
-S3_PREFIX = os.environ.get("S3_PREFIX", "lambda-outputs")
+S3_PREFIX = os.environ.get("S3_PREFIX", "lambda-outputs-intervals")
 
 
 def get_secret(secret_name: str, region_name: str = "eu-west-2"):

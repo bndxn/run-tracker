@@ -12,7 +12,7 @@ s3 = boto3.client("s3")
 
 DUMMY_RESPONSE = False
 
-S3_PREFIX = "detailed_run_store"
+S3_PREFIX = "lambda-outputs"
 S3_BUCKET = "run-tracker-suggestions"
 
 
@@ -35,7 +35,6 @@ def generate_suggestion():
     else:
         recent_runs_raw = get_recent_garmin_activities()
         recent_runs_pretty = pretty_format(recent_runs_raw)
-        # print(recent_runs_pretty)
         suggestion = query_coach(recent_runs_pretty)
 
         return recent_runs_pretty, suggestion
@@ -82,24 +81,25 @@ def lambda_handler(event, context):
 
     """
     recent_runs, suggestion = generate_suggestion()
+    print(recent_runs, suggestion)
 
     output = {
         "timestamp": datetime.now().isoformat(),
         "recent_runs": recent_runs,
         "suggestion": suggestion,
     }
+    try:
+        key = save_to_s3(output, S3_BUCKET, S3_PREFIX)
 
-    key = save_to_s3(output, S3_BUCKET, S3_PREFIX)
-
-    return {
-        "statusCode": 200,
-        "body": json.dumps(
-            {"s3_key": key, "recent_runs": recent_runs, "suggestion": suggestion}
-        ),
-    }
+        return {
+            "statusCode": 200,
+            "body": json.dumps(
+                {"s3_key": key, "recent_runs": recent_runs, "suggestion": suggestion}
+            ),
+        }
+    except Exception as e:
+        print(f"Unable to save to S3: {e}")
 
 
 if __name__ == "__main__":
-    a, b = generate_suggestion()
-    print(a)
-    print(b)
+    lambda_handler(1, 2)

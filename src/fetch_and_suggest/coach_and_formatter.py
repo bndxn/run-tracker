@@ -45,7 +45,7 @@ def query_coach(recent_running_times: str) -> str:
     )
 
     response = client.chat.completions.create(
-        model="gpt-5-mini-2025-08-07",
+        model="gpt-5-2025-08-07",
         messages=[{"role": "user", "content": prompt}],
         response_format={"type": "text"},
         top_p=1,
@@ -78,16 +78,16 @@ For regular runs, output one <li> inside a top-level <ul>:
 
 HTML template:
 <ul>
-  <li>[Date] – [Name], [distance_km] km, [duration_min] min, pace [pace_min_per_km]/km, avg HR [avg_hr]</li>
+  <li>[Date] - [Name], [distance_km] km, [duration], [pace_min_per_km]/km, avg HR [avg_hr]</li>
 </ul>
 
 For interval runs, output a parent <li> summary with a nested <ul> of intervals:
 
 HTML template:
 <ul>
-  <li>[Date] – [Name], total [sum distance_km] km, total [sum duration_min] min, avg pace [average pace], avg HR [average of avg_hr values]
+  <li>[Date] - [Name], [sum distance_km] km, [sum duration], avg pace [average pace], avg HR [average of avg_hr values]
     <ul>
-      <li>Interval [index] – [distance_km] km, [duration_min] min, pace [pace_min_per_km]/km, avg HR [avg_hr]</li>
+      <li> [distance_km] km, [duration_min], pace [pace_min_per_km]/km, avg HR [avg_hr]</li>
       <!-- repeat for each active interval -->
     </ul>
   </li>
@@ -100,6 +100,7 @@ Output valid HTML only (no Markdown). Do not include <html>, <head>, or <body>�
 Dates should be taken from start_time_local (YYYY-MM-DD).
 
 Keep numbers to one decimal place where appropriate.
+Convert all duration values (e.g. duration_min) from decimal minutes into MM:SS format (e.g. 4.4 → 4:24, 21.8 → 21:48). Always round to the nearest second.
 
 There are rest intervals which should be removed. If an interval is very short, e.g. 0.0 - 0.1 km, or is a obviously at a significantly slower pace e.g. slower than 6:30 min/ km, remove it.
 

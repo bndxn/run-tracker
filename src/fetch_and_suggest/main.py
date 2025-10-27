@@ -12,7 +12,7 @@ s3 = boto3.client("s3")
 
 DUMMY_RESPONSE = False
 
-S3_PREFIX = "lambda-outputs"
+S3_PREFIX = "lambda-outputs-intervals"
 S3_BUCKET = "run-tracker-suggestions"
 
 

@@ -34,8 +34,9 @@ run types, or rest and recovery.
 
 guidance = """
 Additional instructions:
+- Be friendly and encouraging, but clear with the facts.
 - The user has a max HR of 197. Based on the user's recent runs and paces and HRs, briefly assess how close they are to the goal
-paces for a 5K below 20 minutes, in only one sentence.
+paces for a 5K below 20 minutes.
 - If the user has already done a run today, give recommendations for the following day. Do not provide or offer anything longer-term.
 - Choose only one of the run types above, or suggest recovery. You can make slight modifications if needed.
 Don't offer anything else.

@@ -23,6 +23,7 @@ flask = "^3.1.0"
 markdown = "^3.7"
 isort = "^6.0.1"
 boto3 = "^1.38.12"
+garminconnect = "^0.2.30"
 
 [build-system]
 requires = ["poetry-core"]

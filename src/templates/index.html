@@ -86,19 +86,17 @@
 </head>
 <body>
     <div class="block">
-        <h2>Recent Runs</h2>
-        <ul>
-            {% for run in recent_runs %}
-                <li>{{ run }}</li>
-            {% endfor %}
-        </ul>
+        <h3>Recent runs</h3>
+        <div class="runs-list">
+            {{ recent_runs | safe }}
+        </div>
     </div>
     <div class="block">
-        <h2>Suggested Next Run</h2>
+        <h3>Analysis and suggested next run</h3>
         <p>{{ suggested_next_run | safe}}</p>
     </div>
     <div class="block">
-        <h2>Architecture</h2>
+        <h3>Architecture</h3>
         <p>The results here are generated as follows:</p>
         <p><strong>Lambda</strong></p>
         <img src="{{ url_for('static', filename='run-tracker-lambda.drawio.svg') }}" alt="Lambda" style="width:100%; height:auto;">

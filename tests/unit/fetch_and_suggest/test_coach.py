@@ -1,6 +1,6 @@
 """Tests functions in fetch_and_suggest.coach.py."""
 
-from fetch_and_suggest.coach import query_coach
+from fetch_and_suggest.coach_and_formatter import query_coach
 
 
 def test_query_coach(monkeypatch, mocker):
@@ -12,7 +12,7 @@ def test_query_coach(monkeypatch, mocker):
         mocker.Mock(message=mocker.Mock(content="Do 5km at tempo pace."))
     ]
 
-    mock_create = mocker.patch("fetch_and_suggest.coach.OpenAI")
+    mock_create = mocker.patch("fetch_and_suggest.coach_and_formatter.OpenAI")
     mock_create.return_value.chat.completions.create.return_value = mock_response
 
     result = query_coach("Last week: 5km in 25 minutes, 10km in 55 minutes.")

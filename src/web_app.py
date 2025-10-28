@@ -32,7 +32,9 @@ def get_most_recent_runs_and_suggestions_from_s3():
 
     """
     try:
-        response = s3.list_objects_v2(Bucket=BUCKET_NAME, Prefix="lambda-outputs/")
+        response = s3.list_objects_v2(
+            Bucket=BUCKET_NAME, Prefix="lambda-outputs-intervals/"
+        )
         objects = response.get("Contents", [])
         if not objects:
             raise Exception("No files found in S3 bucket.")

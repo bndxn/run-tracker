@@ -1,50 +1,21 @@
 """Main controller function for the run-tracker application."""
 
 import json
-import os
-import subprocess
-import sys
 from datetime import datetime
 
 import boto3
 
-from fetch_and_suggest.coach import query_coach
-from fetch_and_suggest.get_activities import get_running_in_period
+from fetch_and_suggest.coach_and_formatter import pretty_format, query_coach
+from fetch_and_suggest.get_from_garmin import get_recent_garmin_activities
 from fetch_and_suggest.setup_config import (
     S3_BUCKET,
     S3_PREFIX,
-    dump_config,
     ensure_external_credentials_set,
 )
 
 s3 = boto3.client("s3")
 
 DUMMY_RESPONSE = False
-
-
-def run_garmindb_cli():
-    """Execute the GarminDB CLI script with predefined arguments.
-
-    This function runs `garmindb_cli.py` using subprocess with
-    flags to download, import, and analyze activities. Any stderr
-    output or non-zero exit codes are printed to stdout.
-    """
-    script_path = os.path.abspath("src/fetch_and_suggest/garmindb_cli.py")
-    cmd = [
-        sys.executable,
-        script_path,
-        "--activities",
-        "--download",
-        "--import",
-        "--analyze",
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
-
-    if result.stderr:
-        print("Errors:", result.stderr)
-
-    if result.returncode != 0:
-        print(f"Script exited with errors (code {result.returncode})")
 
 
 def generate_suggestion():
@@ -62,14 +33,14 @@ def generate_suggestion():
 
     """
     ensure_external_credentials_set()
-    dump_config()
     if DUMMY_RESPONSE:
         return (["A recent run", "Another run"], "Run 10K at 5mins per km")
     else:
-        run_garmindb_cli()
-        recent_runs = get_running_in_period()
-        suggestion = query_coach(recent_runs)
-        return recent_runs, suggestion
+        recent_runs_raw = get_recent_garmin_activities()
+        recent_runs_pretty = pretty_format(recent_runs_raw)
+        suggestion = query_coach(recent_runs_pretty)
+
+        return recent_runs_pretty, suggestion
 
 
 def save_to_s3(data: dict, bucket: str, prefix: str) -> str:
@@ -113,18 +84,25 @@ def lambda_handler(event, context):
 
     """
     recent_runs, suggestion = generate_suggestion()
+    print(recent_runs, suggestion)
 
     output = {
         "timestamp": datetime.now().isoformat(),
         "recent_runs": recent_runs,
         "suggestion": suggestion,
     }
+    try:
+        key = save_to_s3(output, S3_BUCKET, S3_PREFIX)
 
-    key = save_to_s3(output, S3_BUCKET, S3_PREFIX)
+        return {
+            "statusCode": 200,
+            "body": json.dumps(
+                {"s3_key": key, "recent_runs": recent_runs, "suggestion": suggestion}
+            ),
+        }
+    except Exception as e:
+        print(f"Unable to save to S3: {e}")
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps(
-            {"s3_key": key, "recent_runs": recent_runs, "suggestion": suggestion}
-        ),
-    }
+
+if __name__ == "__main__":
+    lambda_handler(1, 2)

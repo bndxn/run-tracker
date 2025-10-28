@@ -167,8 +167,9 @@ def _wipe_dir_contents(dir_path: str) -> None:
 # ── Main function ──────────────────────────────────────────────────────────────
 def get_recent_garmin_activities(n_recent: int = 5) -> str:
     """Get recent garmin activities in FIT format."""
-    GARMIN_EMAIL = os.getenv("GARMIN_EMAIL")
+    GARMIN_EMAIL = os.getenv("GARMIN_USERNAME")
     GARMIN_PASSWORD = os.getenv("GARMIN_PASSWORD")
+    print(GARMIN_EMAIL, GARMIN_PASSWORD)
 
     if not GARMIN_EMAIL or not GARMIN_PASSWORD:
         return json.dumps({"error": "Missing GARMIN_EMAIL / GARMIN_PASSWORD in .env"})

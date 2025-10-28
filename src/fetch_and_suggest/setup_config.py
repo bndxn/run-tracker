@@ -49,12 +49,12 @@ def get_secret(secret_name: str, region_name: str = "eu-west-2"):
 def ensure_external_credentials_set():
     """Ensure all required external credentials are set as environment variables.
 
-    Retrieves 'OPENAI_API_KEY', 'GARMIN_EMAIL' and 'GARMIN_PASSWORD' from AWS Secrets Manager
+    Retrieves 'OPENAI_API_KEY', 'GARMIN_USERNAME' and 'GARMIN_PASSWORD' from AWS Secrets Manager
     and sets them as environment variables if not already set.
     """
     if "OPENAI_API_KEY" not in os.environ:
         os.environ["OPENAI_API_KEY"] = get_secret("OPENAI_API_KEY")
-    if "GARMIN_EMAIL" not in os.environ:
+    if "GARMIN_USERNAME" not in os.environ:
         garmin_credentials = get_secret("garmin-credentials")
-        os.environ["GARMIN_EMAIL"] = garmin_credentials["GARMIN_USERNAME"]
+        os.environ["GARMIN_USERNAME"] = garmin_credentials["GARMIN_USERNAME"]
         os.environ["GARMIN_PASSWORD"] = garmin_credentials["GARMIN_PASSWORD"]

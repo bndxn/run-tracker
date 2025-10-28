@@ -33,7 +33,6 @@ def generate_suggestion():
 
     """
     ensure_external_credentials_set()
-    # dump_config()
     if DUMMY_RESPONSE:
         return (["A recent run", "Another run"], "Run 10K at 5mins per km")
     else:

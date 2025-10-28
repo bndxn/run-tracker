@@ -178,7 +178,9 @@ def get_recent_garmin_activities(n_recent: int = 5) -> str:
     api.login()
     activities = api.get_activities(0, n_recent)
 
-    cache_dir = os.path.join(os.path.dirname(__file__) or ".", ".fitcache")
+    # Lambda file storage: only /tmp is writable (configurable size, default 512MB)
+    cache_root = os.environ.get("GARMIN_CACHE_DIR", "/tmp")
+    cache_dir = os.path.join(cache_root, ".fitcache")
 
     # Clean before we start
     _wipe_dir_contents(cache_dir)
